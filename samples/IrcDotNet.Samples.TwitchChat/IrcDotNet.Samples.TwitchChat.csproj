@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <VersionPrefix>0.6</VersionPrefix>
-    <TargetFrameworks>netcoreapp1.0</TargetFrameworks>
     <AssemblyName>IrcDotNet.Samples.TwitchChat</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>IrcDotNet.Samples.TwitchChat</PackageId>
@@ -11,7 +10,6 @@
     <PackageProjectUrl>https://github.com/IrcDotNet/IrcDotNet/</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/IrcDotNet/IrcDotNet/License.txt</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">1.0.4</RuntimeFrameworkVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -20,6 +18,8 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

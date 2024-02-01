@@ -394,6 +394,7 @@ namespace IrcDotNet
 
             Debug.Assert(message.Parameters[1] != null);
             ServerName = message.Parameters[1];
+            Console.WriteLine($"Setting server name to '{ServerName}'");
             Debug.Assert(message.Parameters[2] != null);
             ServerVersion = message.Parameters[2];
             Debug.Assert(message.Parameters[3] != null);

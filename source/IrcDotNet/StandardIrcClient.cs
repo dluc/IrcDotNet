@@ -96,6 +96,7 @@ namespace IrcDotNet
 
         protected override void WriteMessage(string line, object token)
         {
+            Console.WriteLine($"Enqueueing: {line}\n");
             // Add message line to send queue.
             messageSendQueue.Enqueue(Tuple.Create(line + Environment.NewLine, token));
         }
@@ -249,10 +250,12 @@ namespace IrcDotNet
                     }
 
                     // Send next message in queue.
-                    var message = messageSendQueue.Dequeue();
-                    var line = message.Item1;
-                    var token = message.Item2;
-                    var lineBuffer = TextEncoding.GetBytes(line);
+                    Tuple<string, object> message = messageSendQueue.Dequeue();
+                    string line = message.Item1;
+                    Console.WriteLine($"Dequeued: {line}");
+                    object token = message.Item2;
+                    byte[] lineBuffer = TextEncoding.GetBytes(line);
+                    Console.WriteLine("Sending bytes...");
                     SendAsync(lineBuffer, token);
 
                     // Tell flood preventer mechanism that message has just been sent.
@@ -265,10 +268,12 @@ namespace IrcDotNet
             }
             catch (SocketException exSocket)
             {
+                Console.WriteLine("SocketException in WritePendingMessages");
                 HandleSocketError(exSocket);
             }
             catch (ObjectDisposedException)
             {
+                Console.WriteLine("ObjectDisposedException in WritePendingMessages");
                 // Ignore.
             }
 #if !DEBUG
@@ -284,6 +289,7 @@ namespace IrcDotNet
 
         public override void Disconnect()
         {
+            Console.WriteLine("Disconnect");
             base.Disconnect();
 
             DisconnectAsync();
@@ -360,6 +366,7 @@ namespace IrcDotNet
             {
                 if (e.SocketError != SocketError.Success)
                 {
+                    Console.WriteLine("e.SocketError != SocketError.Success");
                     HandleSocketError(e.SocketError);
                     return;
                 }
@@ -367,6 +374,7 @@ namespace IrcDotNet
                 // Check if remote host has closed connection.
                 if (e.BytesTransferred == 0)
                 {
+                    Console.WriteLine("remote host has closed connection");
                     Disconnect();
                     return;
                 }
@@ -381,10 +389,18 @@ namespace IrcDotNet
                     // Read next line from data stream.
                     var line = dataStreamLineReader.ReadLine();
                     if (line == null)
+                    {
+                        Console.WriteLine("Received null line");
                         break;
-                    if (line.Length == 0)
-                        continue;
+                    }
 
+                    if (line.Length == 0)
+                    {
+                        Console.WriteLine("Received empty line");
+                        continue;
+                    }
+
+                    Console.WriteLine($"Received: {line}");
                     ParseMessage(line);
                 }
 
@@ -425,6 +441,7 @@ namespace IrcDotNet
 
         private void ConnectCompleted(object sender, SocketAsyncEventArgs e)
         {
+            Console.WriteLine("ConnectCompleted");
             try
             {
                 if (e.SocketError != SocketError.Success)
@@ -448,6 +465,7 @@ namespace IrcDotNet
 
                 // Start sending and receiving data to/from server.
                 sendTimer.Change(0, Timeout.Infinite);
+                Console.WriteLine("Enabling sendTimer [ConnectCompleted]");
                 ReceiveAsync();
 
                 HandleClientConnected(token.Item3);
@@ -538,6 +556,7 @@ namespace IrcDotNet
             DebugUtilities.WriteEvent("Disconnected from server.");
 
             // Stop sending messages immediately.
+            Console.WriteLine("Disabling sendTimer [HandleClientDisconnected]");
             sendTimer.Change(Timeout.Infinite, Timeout.Infinite);
 
             // Set that client has disconnected.

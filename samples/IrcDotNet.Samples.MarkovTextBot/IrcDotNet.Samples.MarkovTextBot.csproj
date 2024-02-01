@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <VersionPrefix>0.6</VersionPrefix>
-    <TargetFrameworks>netcoreapp1.0</TargetFrameworks>
     <AssemblyName>IrcDotNet.Samples.MarkovTextBot</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>IrcDotNet.Samples.MarkovTextBot</PackageId>
@@ -11,7 +10,6 @@
     <PackageProjectUrl>https://github.com/IrcDotNet/IrcDotNet/</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/IrcDotNet/IrcDotNet/License.txt</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">1.0.4</RuntimeFrameworkVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -19,14 +17,12 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="../IrcDotNet.Samples.Common/IrcDotNet.Samples.Common.csproj" />
   </ItemGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
-    <DefineConstants>$(DefineConstants);NETCOREAPP</DefineConstants>
-  </PropertyGroup>
 
 </Project>

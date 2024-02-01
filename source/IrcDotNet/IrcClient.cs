@@ -1376,8 +1376,10 @@ namespace IrcDotNet
                 lineBuilder.Append("@" + IrcUtilities.EncodeTags(message.Tags) + " ");
 
             // Append prefix to line, if specified.
-            if (message.Prefix != null)
+            if (message.Prefix != null) {
+                Console.WriteLine("Adding message prefix");
                 lineBuilder.Append(":" + CheckPrefix(message.Prefix) + " ");
+            }
 
             // Append command name to line.
             lineBuilder.Append(CheckCommand(message.Command).ToUpperInvariant());
@@ -1392,12 +1394,22 @@ namespace IrcDotNet
             {
                 var lastParameter = message.Parameters[message.Parameters.Count - 1];
                 if (lastParameter != null)
-                    lineBuilder.Append(" :" + CheckTrailingParameter(lastParameter));
+                {
+                    // if (lastParameter.Contains(' '))
+                    // {
+                        lineBuilder.Append(" :" + CheckTrailingParameter(lastParameter));                        
+                    // }
+                    // else
+                    // {
+                    //     lineBuilder.Append(" " + CheckTrailingParameter(lastParameter));
+                    // }
+                }
             }
 
             // Send raw message as line of text.
             var line = lineBuilder.ToString();
             var messageSentEventArgs = new IrcRawMessageEventArgs(message, line);
+            Console.WriteLine($"Sending: {line}");
             WriteMessage(line, messageSentEventArgs);
         }
 
@@ -1634,6 +1646,7 @@ namespace IrcDotNet
             // Check if client is registering as service or normal user.
             if (regInfo is IrcServiceRegistrationInfo)
             {
+                Console.WriteLine("Registering client as service");
                 // Register client as service.
                 var serviceRegInfo = (IrcServiceRegistrationInfo) regInfo;
                 SendMessageService(serviceRegInfo.NickName, serviceRegInfo.Distribution,
@@ -1644,6 +1657,7 @@ namespace IrcDotNet
             }
             else
             {
+                Console.WriteLine("Registering client as normal user");
                 // Register client as normal user.
                 var userRegInfo = (IrcUserRegistrationInfo) regInfo;
                 SendMessageNick(userRegInfo.NickName);

@@ -2,7 +2,7 @@
 *.csproj.user
 *.sln.cache
 *.svclog
-
+.idea/
 .DS_Store
 Thumbs.db
 
